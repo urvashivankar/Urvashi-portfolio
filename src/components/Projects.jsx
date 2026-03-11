@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Github, Box } from 'lucide-react';
 
@@ -25,26 +26,15 @@ const projects = [
         future: "Webcam-based sentiment and body language analysis for non-verbal communication scoring."
     },
     {
-        title: "AUTOMATED AI NEWS",
-        category: "AI Automation",
-        problem: "AI professionals spend hours manually tracking research updates across multiple sources, missing critical developments.",
-        role: "Automation Engineer",
-        solution: "Developed fully autonomous aggregation system using n8n workflow orchestration, OpenAI API for summarization, PostgreSQL for deduplication, and multi-source RSS integration. Delivers curated daily reports without manual intervention.",
-        challenge: "Filtering duplicate high-frequency news across 100+ global RSS feeds while maintaining accuracy.",
-        tech: ["n8n", "OpenAI API", "PostgreSQL", "RSS Feeds"],
-        link: "https://github.com/urvashivankar/daily-news-summary",
-        future: "Voice-automated daily briefings via Telegram/WhatsApp integration."
-    },
-    {
-        title: "AMAZON SALES BI",
-        category: "Full-Stack Analytics",
-        problem: "E-commerce sellers lacked unified visibility into sales performance across regions, leading to poor inventory and pricing decisions.",
-        role: "Data Analytics Developer",
-        solution: "Architected interactive dashboards with Power BI, complex DAX calculations, SQL ETL pipelines, and Amazon Seller Central API integration. Enabled data-driven decisions with real-time KPI tracking.",
-        challenge: "Normalizing inconsistent schemas from multiple Amazon Seller Central exports across regions.",
-        tech: ["Power BI", "DAX", "SQL", "Excel ETL"],
-        link: "https://github.com/urvashivankar",
-        future: "Predictive demand forecasting using Power BI's built-in ML capabilities."
+        title: "ROSHNI ENTERPRISE",
+        category: "Full-Stack MERN",
+        problem: "Requirement for a robust, scalable enterprise management system with dynamic data handling.",
+        role: "Full-Stack Developer",
+        solution: "Built a comprehensive enterprise web application using the MERN stack (MongoDB, Express.js, React, Node.js).",
+        challenge: "Ensuring high availability and secure data management across multiple user roles.",
+        tech: ["MongoDB", "Express", "React", "Node.js"],
+        link: "https://github.com/urvashivankar/roshni-enterprise",
+        future: "Implementation of advanced analytics dashboards and real-time notifications."
     },
     {
         title: "FAKE NEWS DETECTOR",
@@ -58,19 +48,30 @@ const projects = [
         future: "Multi-language support and real-time social media source-reliability scoring."
     },
     {
-        title: "HEALTH-AI SCANNER",
-        category: "Computer Vision",
-        problem: "Radiologists need AI assistance for early-stage diagnostics in high-workload medical imaging environments.",
-        role: "Computer Vision Developer",
-        solution: "Built CNN-based MRI analysis tool using TensorFlow and Keras with OpenCV processing. Specialized visualization layers highlight anomaly regions with confidence markers for high-recall triage.",
-        challenge: "Achieving high recall rates to ensure no potential anomalies missed during medical triage.",
-        tech: ["TensorFlow", "Keras", "OpenCV", "CNN"],
-        link: "https://github.com/urvashivankar/brain-tumor-detection",
-        future: "Federated learning implementation to improve model accuracy while maintaining patient privacy."
+        title: "PROMPT REFINEMENT SYSTEM",
+        category: "AI & Prompt Engineering",
+        problem: "Inefficient and inconsistent AI prompt generation leading to suboptimal LLM outputs.",
+        role: "AI Developer",
+        solution: "Developed an interactive system to systematically refine, test, and optimize prompts for various Large Language Models.",
+        challenge: "Creating a universal framework that adapts to different LLM requirements and context Windows.",
+        tech: ["LLMs", "Prompt Engineering", "React", "Node.js"],
+        link: "https://github.com/urvashivankar/prompt-refinement-system",
+        future: "Integration with additional specialized AI models via API."
+    },
+    {
+        title: "CSE AI AGENT (NEXUSCHAT)",
+        category: "Full-Stack MEAN",
+        problem: "Students and professionals needed an intelligent, context-aware chatbot for specialized academic and CSE assistance.",
+        role: "Full-Stack Developer",
+        solution: "Developed a production-ready AI-powered CSE assistant using the full MEAN stack (MongoDB, Express.js, Angular, Node.js) with real-time Socket.IO and Groq AI integration.",
+        challenge: "Integrating AI seamlessly with full-stack architecture for low-latency, real-time responses.",
+        tech: ["MongoDB", "Express", "Angular", "Node.js"],
+        link: "https://github.com/urvashivankar/Mean-project",
+        future: "Incorporating advanced file-parsing capabilities and deeper contextual memory."
     }
 ];
 
-const Projects = () => {
+const Projects = memo(() => {
     return (
         <section id="projects" className="py-24 relative overflow-hidden">
             <div className="container mx-auto px-6 md:px-12 lg:px-20">
@@ -128,7 +129,8 @@ const Projects = () => {
                                     <a
                                         href={project.link}
                                         target="_blank"
-                                        className="p-3 rounded-full border border-slate-100 hover:bg-primary hover:text-white hover:border-primary transition-all duration-500"
+                                        rel="noopener noreferrer"
+                                        className="p-3 rounded-full border border-slate-100/10 hover:bg-primary hover:text-white hover:border-primary transition-all duration-500"
                                     >
                                         <Github size={20} />
                                     </a>
@@ -158,8 +160,6 @@ const Projects = () => {
             </div>
         </section>
     );
-};
-
-
+});
 
 export default Projects;

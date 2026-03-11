@@ -1,6 +1,6 @@
 import { motion, useSpring, useTransform, useMotionValue } from 'framer-motion';
 import { Linkedin, Github, FileText, Send, Twitter, Instagram, ArrowRight } from 'lucide-react';
-import { useRef, Suspense, lazy } from 'react';
+import { useRef, Suspense, lazy, memo } from 'react';
 
 const Spline = lazy(() => import('@splinetool/react-spline'));
 
@@ -44,7 +44,7 @@ const MagneticButton = ({ children, className, href, target }) => {
     );
 };
 
-const Hero = () => {
+const Hero = memo(() => {
     const container = {
         hidden: { opacity: 0 },
         show: {
@@ -106,7 +106,7 @@ const Hero = () => {
                                 <span className="relative z-10 flex items-center gap-2">
                                     <FileText size={18} /> Resume
                                 </span>
-                                <div className="absolute inset-0 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                                <div className="absolute inset-0 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left transform-gpu"></div>
                             </MagneticButton>
 
                             <MagneticButton
@@ -114,7 +114,7 @@ const Hero = () => {
                                 className="group relative px-8 py-4 bg-transparent text-white font-bold rounded-full transition-all duration-300 border border-white/20 hover:border-primary"
                             >
                                 <span className="relative z-10 flex items-center gap-2">
-                                    Hire Me <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                    Hire Me <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform transform-gpu" />
                                 </span>
                             </MagneticButton>
                         </motion.div>
@@ -133,7 +133,7 @@ const Hero = () => {
                                     key={i}
                                     href={social.href}
                                     target="_blank"
-                                    className="text-slate-500 hover:text-primary transition-all duration-300 hover:scale-110"
+                                    className="text-slate-500 hover:text-primary transition-all duration-300 hover:scale-110 transform-gpu"
                                 >
                                     {social.icon}
                                 </a>
@@ -144,7 +144,7 @@ const Hero = () => {
                     {/* Right Side: Spline 3D Scene */}
                     <div className="relative h-[400px] lg:h-[600px] w-full">
                         <Suspense fallback={<div className="w-full h-full bg-slate-900/10 animate-pulse rounded-3xl" />}>
-                            <div className="w-full h-full transform scale-110 lg:scale-125">
+                            <div className="w-full h-full transform scale-110 lg:scale-125 transform-gpu">
                                 <Spline
                                     scene="https://prod.spline.design/1pzJQnCWvdZAETah/scene.splinecode"
                                     className="w-full h-full"
@@ -166,11 +166,11 @@ const Hero = () => {
                 </div >
             </div >
 
-            {/* Subtle Gradient Backdrops */}
-            < div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] -z-10 translate-x-1/2 -translate-y-1/2 transition-colors" ></div >
-            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[120px] -z-10 -translate-x-1/2 translate-y-1/2 transition-colors"></div>
+            {/* Subtle Gradient Backdrops - Hardware Accelerated for Performance */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] -z-10 translate-x-1/2 -translate-y-1/2 transform-gpu will-change-transform pointer-events-none" ></div>
+            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[120px] -z-10 -translate-x-1/2 translate-y-1/2 transform-gpu will-change-transform pointer-events-none"></div>
         </section >
     );
-};
+});
 
 export default Hero;

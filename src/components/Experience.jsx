@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Award, Briefcase, Users, Star, ArrowUpRight, GraduationCap, Building2 } from 'lucide-react';
 
@@ -52,7 +53,7 @@ const experiences = [
     }
 ];
 
-const Experience = () => {
+const Experience = memo(() => {
     return (
         <section id="experience" className="py-24 relative overflow-hidden">
             <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
@@ -112,6 +113,6 @@ const Experience = () => {
             </div>
         </section>
     );
-};
+});
 
 export default Experience;

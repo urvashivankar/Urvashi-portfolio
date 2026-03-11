@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { BarChart2, Brain, Globe, Server, Rocket, ArrowUpRight } from 'lucide-react';
 
-const About = () => {
+const About = memo(() => {
     const services = [
         {
             icon: <Brain size={24} />,
@@ -103,7 +104,7 @@ const About = () => {
             </div>
         </section>
     );
-};
+});
 
 
 

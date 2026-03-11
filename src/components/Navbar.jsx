@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo.webp';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -19,7 +19,6 @@ const Navbar = () => {
         { name: 'Experience', href: '#experience' },
         { name: 'Skills', href: '#skills' },
         { name: 'Projects', href: '#projects' },
-        { name: 'Certificates', href: '#certificates' },
         { name: 'Contact', href: '#contact' },
     ];
 
@@ -28,7 +27,7 @@ const Navbar = () => {
             <div className="container mx-auto px-6 md:px-12 lg:px-20 flex justify-between items-center">
                 <a href="#" className="flex items-center gap-3 group">
                     <div className="w-10 h-10 overflow-hidden rounded-xl border border-white/10 group-hover:rotate-12 transition-transform duration-500">
-                        <img src={logo} alt="UV" className="w-full h-full object-cover" />
+                        <img src={logo} alt="UV" loading="eager" decoding="async" className="w-full h-full object-cover" />
                     </div>
                     <span className="text-xl font-bold font-grotesk text-white tracking-tighter">
                         Urvashi's <span className="text-primary italic">Portfolio.</span>
