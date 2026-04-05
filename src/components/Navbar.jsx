@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [hoveredIndex, setHoveredIndex] = useState(null);
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -22,67 +23,102 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className={`fixed top-0 w-full z-[999] transition-all duration-700 ${isScrolled ? 'bg-[#020617]/80 backdrop-blur-xl py-4 border-b border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.1)]' : 'bg-transparent py-8'}`}>
-            <div className="container mx-auto px-6 md:px-12 lg:px-20 flex justify-between items-center">
-                <a href="#" className="flex items-center gap-2 group">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center font-black text-white text-sm shadow-[0_0_15px_rgba(168,85,247,0.4)] group-hover:scale-110 transition-transform duration-300">
+        <motion.nav 
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1, type: "spring", bounce: 0.3, delay: 0.1 }}
+            className={`fixed w-full z-[999] transition-all duration-500 flex justify-center ${isScrolled ? 'top-4 pointer-events-none' : 'top-0 py-6 pointer-events-auto'}`}
+        >
+            {/* Desktop Navbar - Floating Pill */}
+            <div className={`hidden lg:flex items-center gap-4 px-3 py-2 pointer-events-auto transition-all duration-500 rounded-full ${isScrolled ? 'bg-[#020617]/80 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]' : 'bg-transparent'}`}>
+                <a href="#" className="flex items-center group mr-2">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center font-black text-white text-sm shadow-[0_0_15px_rgba(168,85,247,0.5)] group-hover:scale-110 transition-transform duration-300">
                         UV
                     </div>
                 </a>
 
-                <div className="hidden lg:flex items-center gap-10">
-                    <div className="flex items-center gap-8">
-                        {navLinks.map((link) => (
-                            <a
-                                key={link.name}
-                                href={link.href}
-                                className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-white transition-colors flex items-center gap-1.5 group"
-                            >
-                                <span className="w-0 group-hover:w-4 h-[1px] bg-primary transition-all duration-300"></span>
-                                {link.name}
-                            </a>
-                        ))}
-                    </div>
-
-                </div>
-
-                {/* Mobile Header Controls */}
-                <div className="lg:hidden flex items-center gap-4">
-                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white p-2 glass">
-                        {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-                    </button>
+                <div className="flex items-center relative" onMouseLeave={() => setHoveredIndex(null)}>
+                    {navLinks.map((link, index) => (
+                        <a
+                            key={link.name}
+                            href={link.href}
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            className="relative px-5 py-2.5 text-xs font-bold uppercase tracking-[0.15em] text-slate-300 hover:text-white transition-colors z-10"
+                        >
+                            {hoveredIndex === index && (
+                                <motion.div
+                                    layoutId="nav-pill"
+                                    className="absolute inset-0 bg-white/10 rounded-full -z-10"
+                                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                                />
+                            )}
+                            {link.name}
+                        </a>
+                    ))}
                 </div>
             </div>
 
-            {/* Mobile Menu */}
+            {/* Mobile Header */}
+            <div className={`lg:hidden w-full px-6 flex justify-between items-center pointer-events-auto transition-all duration-500 ${isScrolled ? 'py-4 bg-[#020617]/90 backdrop-blur-xl border-b border-white/10 shadow-lg' : 'py-2'}`}>
+                <a href="#" className="flex items-center group">
+                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center font-black text-white text-xs shadow-[0_0_15px_rgba(168,85,247,0.5)] group-hover:scale-110 transition-transform duration-300">
+                        UV
+                    </div>
+                </a>
+
+                <button onClick={() => setIsMenuOpen(true)} className="text-white p-2.5 glass rounded-full hover:bg-white/5 transition-colors">
+                    <Menu size={20} />
+                </button>
+            </div>
+
+            {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 top-0 left-0 w-full h-screen bg-[#020617]/95 backdrop-blur-2xl z-[998] lg:hidden"
+                        initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+                        animate={{ opacity: 1, backdropFilter: 'blur(20px)' }}
+                        exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+                        className="fixed inset-0 top-0 left-0 w-full h-screen bg-[#020617]/95 z-[1000] lg:hidden flex flex-col pointer-events-auto"
                     >
-                        <div className="flex flex-col h-full justify-center px-12 gap-8">
+                        <div className="flex justify-between items-center p-6 border-b border-white/5">
+                            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center font-black text-white text-xs">
+                                UV
+                            </div>
+                            <button onClick={() => setIsMenuOpen(false)} className="text-white p-2.5 glass rounded-full hover:bg-white/10 transition-colors bg-white/5">
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        <div className="flex flex-col h-full justify-center px-10 gap-8">
                             {navLinks.map((link, i) => (
                                 <motion.a
                                     key={link.name}
-                                    initial={{ opacity: 0, x: -20 }}
+                                    initial={{ opacity: 0, x: -30 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.1 }}
+                                    exit={{ opacity: 0, x: -20 }}
+                                    transition={{ delay: i * 0.1, type: "spring", stiffness: 200, damping: 20 }}
                                     href={link.href}
                                     onClick={() => setIsMenuOpen(false)}
-                                    className="text-3xl font-bold font-grotesk text-white/50 hover:text-white flex justify-between items-center group"
+                                    className="text-4xl font-black font-grotesk text-slate-500 hover:text-white flex justify-between items-center group transition-colors"
                                 >
-                                    <span className="group-hover:text-primary transition-colors underline-offset-8 group-hover:underline">{link.name}</span> 
-                                    <ArrowUpRight size={24} className="group-hover:text-primary" />
+                                    <span className="group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-purple-500 transition-all duration-300">
+                                        {link.name}
+                                    </span> 
+                                    <ArrowUpRight size={28} className="text-slate-700 group-hover:text-cyan-400 transition-all transform group-hover:-translate-y-1 group-hover:translate-x-1 duration-300" />
                                 </motion.a>
                             ))}
                         </div>
+                        
+                        <motion.div 
+                            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
+                            className="mt-auto p-8 text-center text-[10px] tracking-widest text-slate-600 uppercase font-black"
+                        >
+                            Urvashi Vankar • Portfolio
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </nav>
+        </motion.nav>
     );
 };
 

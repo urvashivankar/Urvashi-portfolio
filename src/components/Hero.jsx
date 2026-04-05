@@ -1,32 +1,68 @@
 import { useRef, Suspense, lazy, memo, useState, useEffect } from 'react';
 import { motion, useSpring, useMotionValue, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Download } from 'lucide-react';
-import { SiReact, SiPython, SiFastapi, SiMongodb, SiNodedotjs, SiTailwindcss, SiJavascript, SiHtml5, SiGithub, SiVercel, SiSupabase, SiMysql } from 'react-icons/si';
+import { SiReact, SiPython, SiFastapi, SiMongodb, SiNodedotjs, SiTailwindcss, SiJavascript, SiHtml5, SiGithub, SiVercel, SiSupabase, SiMysql, SiDjango, SiNextdotjs, SiPostgresql } from 'react-icons/si';
 
 const Spline = lazy(() => import('@splinetool/react-spline'));
 
 const ORBIT_ICONS = [
     { icon: SiReact,      name: 'React',      color: '#61DAFB', glow: 'rgba(97,218,251,0.6)' },
-    { icon: SiJavascript, name: 'JavaScript',  color: '#F7DF1E', glow: 'rgba(247,223,30,0.6)' },
-    { icon: SiPython,     name: 'Python',      color: '#3776AB', glow: 'rgba(55,118,171,0.6)' },
-    { icon: SiFastapi,    name: 'FastAPI',     color: '#009688', glow: 'rgba(0,150,136,0.6)' },
-    { icon: SiMongodb,    name: 'MongoDB',     color: '#47A248', glow: 'rgba(71,162,72,0.6)' },
-    { icon: SiNodedotjs,  name: 'Node.js',     color: '#339933', glow: 'rgba(51,153,51,0.6)' },
-    { icon: SiTailwindcss,name: 'Tailwind',    color: '#06B6D4', glow: 'rgba(6,182,212,0.6)' },
-    { icon: SiGithub,     name: 'GitHub',      color: '#ffffff', glow: 'rgba(255,255,255,0.4)' },
+    { icon: SiNextdotjs,  name: 'Next.js',    color: '#ffffff', glow: 'rgba(255,255,255,0.6)' },
+    { icon: SiJavascript, name: 'JavaScript', color: '#F7DF1E', glow: 'rgba(247,223,30,0.6)' },
+    { icon: SiPython,     name: 'Python',     color: '#3776AB', glow: 'rgba(55,118,171,0.6)' },
+    { icon: SiDjango,     name: 'Django',     color: '#092E20', glow: 'rgba(9,46,32,0.8)' },
+    { icon: SiFastapi,    name: 'FastAPI',    color: '#009688', glow: 'rgba(0,150,136,0.6)' },
+    { icon: SiPostgresql, name: 'PostgreSQL', color: '#4169E1', glow: 'rgba(65,105,225,0.6)' },
+    { icon: SiMongodb,    name: 'MongoDB',    color: '#47A248', glow: 'rgba(71,162,72,0.6)' },
+    { icon: SiNodedotjs,  name: 'Node.js',    color: '#339933', glow: 'rgba(51,153,51,0.6)' },
+    { icon: SiTailwindcss,name: 'Tailwind',   color: '#06B6D4', glow: 'rgba(6,182,212,0.6)' },
+    { icon: SiGithub,     name: 'GitHub',     color: '#ffffff', glow: 'rgba(255,255,255,0.4)' },
 ];
 
 const OrbitRing = () => {
     const [isPaused, setIsPaused] = useState(false);
+    const [activeTech, setActiveTech] = useState(null);
     const total = ORBIT_ICONS.length;
 
+    const handleTechClick = (tech) => {
+        setActiveTech(tech);
+        setTimeout(() => setActiveTech(null), 3000);
+    };
+
     return (
-        <div className="relative w-[180px] h-[180px] sm:w-[260px] sm:h-[260px] md:w-[420px] md:h-[420px] mx-auto">
+        <div className="relative w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[460px] md:h-[460px] mx-auto mt-16 md:mt-0">
             {/* Center Glow Core */}
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-cyan-500/30 to-purple-600/30 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-[0_0_40px_rgba(168,85,247,0.4)]">
-                    <span className="text-white font-extrabold font-grotesk tracking-tight text-sm sm:text-lg md:text-xl bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">AI</span>
-                </div>
+            <div className="absolute inset-0 flex items-center justify-center z-10 transition-all duration-500">
+                <motion.div 
+                    animate={ activeTech ? { scale: [1, 1.2, 1], rotate: [0, 180, 360] } : { scale: 1 } }
+                    transition={{ duration: 0.8, ease: "easeInOut" }}
+                    onClick={() => setActiveTech(null)}
+                    className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full cursor-pointer bg-gradient-to-br from-cyan-500/30 to-purple-600/30 backdrop-blur-2xl border border-white/20 flex flex-col items-center justify-center shadow-[0_0_50px_rgba(168,85,247,0.5)] overflow-hidden"
+                >
+                    <AnimatePresence mode="wait">
+                        {activeTech ? (
+                            <motion.div
+                                key={activeTech.name}
+                                initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.8, y: -20 }}
+                                className="flex flex-col items-center justify-center"
+                            >
+                                <activeTech.icon size={40} style={{ color: activeTech.color }} className="drop-shadow-lg mb-1" />
+                            </motion.div>
+                        ) : (
+                            <motion.span 
+                                key="AI"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="text-white font-extrabold font-grotesk tracking-tight text-xl sm:text-2xl md:text-4xl bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"
+                            >
+                                AI
+                            </motion.span>
+                        )}
+                    </AnimatePresence>
+                </motion.div>
                 {/* Orbit ring circles */}
                 <div className="absolute w-full h-full rounded-full border border-white/5"></div>
                 <div className="absolute w-[85%] h-[85%] rounded-full border border-dashed border-white/5"></div>
@@ -36,7 +72,7 @@ const OrbitRing = () => {
             <motion.div
                 className="absolute inset-0"
                 animate={{ rotate: isPaused ? undefined : 360 }}
-                transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
             >
                 {ORBIT_ICONS.map((tech, i) => {
                     const angle = (360 / total) * i;
@@ -56,23 +92,37 @@ const OrbitRing = () => {
                             }}
                             onHoverStart={() => setIsPaused(true)}
                             onHoverEnd={() => setIsPaused(false)}
+                            onClick={() => handleTechClick(tech)}
                         >
                             {/* Counter-rotate icon so it stays upright */}
                             <motion.div
                                 animate={{ rotate: isPaused ? 0 : -360 }}
-                                transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+                                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
                             >
                                 {/* Tooltip */}
-                                <div className="absolute -top-9 left-1/2 -translate-x-1/2 bg-[#020617]/90 border border-white/10 px-2 py-1 rounded-lg text-[10px] font-bold text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                                <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-[#020617]/90 border border-white/10 px-3 py-1.5 rounded-lg text-xs font-bold text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-xl">
                                     {tech.name}
                                 </div>
 
                                 <motion.div
-                                    whileHover={{ scale: 1.25, boxShadow: `0 0 20px ${tech.glow}`, borderColor: tech.color + '60' }}
-                                    className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 flex items-center justify-center transition-all duration-300"
+                                    animate={{ y: [0, -8, 0] }}
+                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: i * 0.1 }}
+                                    whileHover={{ scale: 1.15, boxShadow: `0 0 35px ${tech.glow}`, borderColor: tech.color + '80' }}
+                                    whileTap={{ scale: 0.9 }}
+                                    className="w-12 h-12 md:w-16 md:h-16 rounded-2xl md:rounded-[20px] bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center transition-colors duration-300 relative"
                                     style={{ color: tech.color }}
                                 >
-                                    <tech.icon size={22} />
+                                    {/* Active ring effect */}
+                                    {activeTech?.name === tech.name && (
+                                        <motion.div 
+                                            initial={{ opacity: 1, scale: 1 }}
+                                            animate={{ opacity: 0, scale: 2 }}
+                                            transition={{ duration: 0.8 }}
+                                            className="absolute inset-0 rounded-[20px] border-2"
+                                            style={{ borderColor: tech.color }}
+                                        />
+                                    )}
+                                    <tech.icon size={28} className="drop-shadow-lg z-10" />
                                 </motion.div>
                             </motion.div>
                         </motion.div>
@@ -180,21 +230,33 @@ const Hero = memo(() => {
             opacity: 1,
             transition: {
                 staggerChildren: 0.15,
-                delayChildren: 0.2
+                delayChildren: 0.3
             }
         }
     };
 
     const item = {
+        hidden: { opacity: 0, y: 60, rotateX: 15, filter: 'blur(15px)', scale: 0.9 },
+        show: { 
+            opacity: 1, 
+            y: 0, 
+            rotateX: 0,
+            filter: 'blur(0px)',
+            scale: 1,
+            transition: { duration: 1.2, type: "spring", bounce: 0.4 } 
+        }
+    };
+    
+    const textAnimation = {
         hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
         show: { 
             opacity: 1, 
             y: 0, 
             filter: 'blur(0px)',
-            transition: { duration: 1.2, type: "spring", bounce: 0.4 } 
+            transition: { duration: 1, type: "spring", bounce: 0.3 } 
         }
     };
-    
+
     const orbitContainer = {
         hidden: { opacity: 0, scale: 0.8, rotate: -20 },
         show: { 
@@ -219,21 +281,34 @@ const Hero = memo(() => {
                         animate="show"
                         className="text-left z-20 flex flex-col justify-center"
                     >
+                        {/* Open to Work Badge */}
+                        <motion.div variants={item} className="mb-6 inline-flex">
+                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_0_15px_rgba(34,197,94,0.1)]">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
+                                </span>
+                                <span className="text-xs font-medium text-slate-200 tracking-wide">Open to Work</span>
+                            </div>
+                        </motion.div>
+
                         <motion.div variants={item} className="flex items-center gap-3 mb-5">
                             <span className="w-12 h-[2px] bg-gradient-to-r from-cyan-400 to-purple-500"></span>
                             <span className="text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase text-cyan-400">Full Stack AI Developer</span>
                         </motion.div>
 
                         <motion.h1 
-                            variants={item}
-                            className="text-3xl sm:text-5xl md:text-6xl font-bold font-grotesk leading-tight tracking-tight mb-4 relative"
+                            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold font-grotesk leading-tight tracking-tight mb-6 relative flex flex-wrap gap-2 sm:gap-3"
                         >
                             {/* Heading Glow */}
-                            <div className="absolute -inset-10 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-transparent blur-[60px] -z-10 rounded-full"></div>
-                            <span className="text-white block">Urvashi</span>
-                            <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent block">
+                            <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-transparent blur-[40px] -z-10 rounded-full"></div>
+                            
+                            <motion.span variants={textAnimation} className="text-slate-200 block transform-gpu">
+                                Urvashi
+                            </motion.span>
+                            <motion.span variants={textAnimation} className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent block transform-gpu pb-2 drop-shadow-sm">
                                 Vankar.
-                            </span>
+                            </motion.span>
                         </motion.h1>
 
                         <motion.div variants={item} className="flex flex-col space-y-5 max-w-xl">
@@ -249,7 +324,7 @@ const Hero = memo(() => {
                             <div className="flex flex-wrap items-center gap-4 pt-3">
                                 <MagneticButton
                                     href="#projects"
-                                    className="group flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white text-xs font-bold tracking-[0.15em] uppercase hover:opacity-90 transition-all shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)]"
+                                    className="group flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white text-xs font-bold tracking-[0.15em] uppercase hover:opacity-100 transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:shadow-[0_0_40px_rgba(168,85,247,0.7)]"
                                 >
                                     Explore My Work <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                                 </MagneticButton>

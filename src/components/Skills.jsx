@@ -12,20 +12,20 @@ const skills = [
     {
         category: "Backend Development",
         icon: <Database size={20} />,
-        items: ["FastAPI", "Node.js", "PostgreSQL", "Supabase", "REST APIs"],
+        items: ["FastAPI", "Node.js", "Django", "PostgreSQL", "MySQL", "MongoDB", "Supabase", "REST APIs"],
         description: "Scalable server-side logic and high-performance APIs."
     },
     {
         category: "AI Integration",
         icon: <Brain size={20} />,
-        items: ["LLM APIs", "Gemini", "RAG Systems", "Prompt Engineering", "Python"],
+        items: ["LLM APIs", "Gemini", "RAG Systems", "Prompt Engineering", "Python", "AI/ML"],
         description: "Production-ready AI systems with intelligent automation.",
         primary: true
     },
     {
         category: "Deployment & DevOps",
         icon: <Zap size={20} />,
-        items: ["Docker", "Git", "Vercel", "Render", "n8n", "MLOps"],
+        items: ["Docker", "Git", "AWS (Basic)", "Vercel", "Render", "n8n", "MLOps"],
         description: "CI/CD workflows and production deployment pipelines."
     }
 ];
