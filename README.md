@@ -10,7 +10,7 @@ A premium, high-performance portfolio showcasing full-stack AI development exper
 ---
 
 ##  Live Demo
-🔗 **[View live portfolio here](https://urvashi-portfolio.vercel.app/)** *(Update with your link)*
+🔗 **[View live portfolio here](https://urvashi-portfolio.vercel.app/)**
 
 ---
 
@@ -83,7 +83,7 @@ To personalize this portfolio:
 
 ---
 
-## 🚢 Deployment
+##  Deployment
 
 The project is pre-configured for **Vercel** or **Netlify**.
 
@@ -93,10 +93,6 @@ The project is pre-configured for **Vercel** or **Netlify**.
    - **Build Command**: `npm run build`
    - **Output Directory**: `dist`
 
----
 
-
-## ⚖️ License
-Distributed under the MIT License. See `LICENSE` for more information.
 
 
